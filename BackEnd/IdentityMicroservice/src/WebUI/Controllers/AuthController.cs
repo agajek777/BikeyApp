@@ -38,5 +38,25 @@ namespace WebUI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             });
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserForLoginRegisterDto loginDto)
+        {
+            var command = new LoginCommand()
+            {
+                UserName = loginDto.UserName, 
+                Password = loginDto.Password
+            };
+
+            var result = await _mediator.Send(command);
+            
+            return result.Match<IActionResult>(s => Ok(s), f =>
+            {
+                if (f is BadRequestException)
+                    return BadRequest(f.Message);
+                
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            });
+        }
     }
 }
