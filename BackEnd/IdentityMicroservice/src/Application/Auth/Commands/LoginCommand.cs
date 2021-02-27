@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Auth.Commands
 {
-    public class RegisterCommand : UserForLoginRegisterDto, IRequest<Result<UserWithTokenDto>>
+    public class LoginCommand : UserForLoginRegisterDto, IRequest<Result<UserWithTokenDto>>
     {
         
     }
