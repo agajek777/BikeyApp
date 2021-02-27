@@ -35,6 +35,8 @@ namespace WebUI
             services.AddDbContext<DbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddIdentity<User, Role>()
                 .AddRoles<Role>()
                 .AddEntityFrameworkStores<DbContext>();
