@@ -4,4 +4,24 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Auth\Handlers" />
+      <Folder Include="Common\Exceptions" />
+      <Folder Include="Common\Mappings" />
+      <Folder Include="Roles\Commands" />
+      <Folder Include="Roles\Handlers" />
+      <Folder Include="Roles\Queries" />
+      <Folder Include="Users\Commands" />
+      <Folder Include="Users\Handlers" />
+      <Folder Include="Users\Queries" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Domain\Domain.csproj" />
+    </ItemGroup>
+
 </Project>
