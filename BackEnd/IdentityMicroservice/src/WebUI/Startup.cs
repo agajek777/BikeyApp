@@ -2,11 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Common.Interfaces.Services;
 using Domain.Entities;
+using Infrastructure.Persistence;
+using Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +18,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using DbContext = Infrastructure.Persistence.DbContext;
 
 namespace WebUI
 {
@@ -32,16 +35,20 @@ namespace WebUI
         {
             services.AddControllers();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "WebUI", Version = "v1"}); });
-            services.AddDbContext<DbContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddAutoMapper(typeof(Startup));
-
+            
             services.AddIdentity<User, Role>()
                 .AddRoles<Role>()
-                .AddEntityFrameworkStores<DbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            var appAssembly = AppDomain.CurrentDomain.Load("Application");
+            services.AddMediatR(appAssembly);
             
-            services.AddMediatR(typeof(Startup));
+            services.AddAutoMapper(appAssembly);
+
+            services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IAuthService, AuthService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

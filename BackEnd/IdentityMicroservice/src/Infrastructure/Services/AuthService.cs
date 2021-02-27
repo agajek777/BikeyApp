@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Application.Auth.Commands;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces.Services;
@@ -33,7 +34,7 @@ namespace Infrastructure.Services
             var result = await _userManager.CreateAsync(user, request.Password);
 
             if (!result.Succeeded)
-                return new Result<UserWithTokenDto>(new BadRequestException(result.Errors.ToString()));
+                return new Result<UserWithTokenDto>(new BadRequestException(result.Errors.First().Description));
 
             var outcome = _mapper.Map<UserWithTokenDto>(user);
 

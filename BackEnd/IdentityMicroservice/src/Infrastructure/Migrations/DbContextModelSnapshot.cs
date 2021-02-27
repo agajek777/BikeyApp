@@ -5,11 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using DbContext = Infrastructure.Persistence.DbContext;
 
 namespace Infrastructure.Migrations
 {
-    [DbContext(typeof(DbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class DbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
