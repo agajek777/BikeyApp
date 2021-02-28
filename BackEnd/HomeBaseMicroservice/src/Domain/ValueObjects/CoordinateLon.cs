@@ -8,7 +8,7 @@ namespace Domain.ValueObjects
         protected override void Validate()
             {
                 if (Value is < 14.117 or > 24.15)
-                    throw new InvalidLongitudeCoordinate(Value);
+                    throw new InvalidLongitudeCoordinateException(Value);
             }
         }
 }
