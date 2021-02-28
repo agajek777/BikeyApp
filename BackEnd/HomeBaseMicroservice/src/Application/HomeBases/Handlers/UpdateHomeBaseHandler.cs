@@ -21,19 +21,6 @@ namespace Application.HomeBases.Handlers
 
         public async Task<Result<HomeBaseResponse>> Handle(UpdateHomeBaseCommand request, CancellationToken cancellationToken)
         {
-            HomeBaseResponse homeBaseResponse = new HomeBaseResponse();
-
-            var result = (await _homeBaseService.GetHomeBaseAsync(request.Id))
-                .Match(s => homeBaseResponse = s,
-                    f => new Result<HomeBaseResponse>(f));
-
-            if (result.IsFaulted)
-                return result;
-
-            if (homeBaseResponse.Name != request.Name)
-                if (!await _homeBaseService.CheckIfUniqueAsync(request.Name))
-                    return new Result<HomeBaseResponse>(new BadRequestException(Error.InvalidHomeBaseName));
-
             return await _homeBaseService.UpdateHomeBaseAsync(request);
         }
     }
