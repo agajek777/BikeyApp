@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
-using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
 using Application.HomeBases.Commands;
 using AutoMapper;
@@ -57,29 +56,74 @@ namespace Infrastructure.Repositories
 
         }
 
-        public Task<Result<HomeBaseResponse>> GetHomeBaseAsync(string requestId)
+        public async Task<Result<HomeBaseResponse>> GetHomeBaseAsync(string requestId)
         {
-            throw new System.NotImplementedException();
+            var baseInbDb = await _dbContext.HomeBases.FindAsync(requestId);
+
+            if (baseInbDb is null)
+                return new Result<HomeBaseResponse>(
+                    new InternalErrorException(Error.ErrorWhileProcessingOperation));
+
+            var baseResponse = _mapper.Map<HomeBaseResponse>(baseInbDb);
+            
+            return new Result<HomeBaseResponse>(baseResponse);
         }
 
-        public Task<Result<List<HomeBaseResponse>>> GetAllHomeBasesAsync()
+        public async Task<Result<List<HomeBaseResponse>>> GetAllHomeBasesAsync()
         {
-            throw new System.NotImplementedException();
+            return await _dbContext.HomeBases
+                .Select(b => _mapper.Map<HomeBaseResponse>(b))
+                .ToListAsync();
         }
 
-        public Task<bool> CheckIfExists(string requestId)
+        public async Task<bool> CheckIfExists(string requestId)
         {
-            throw new System.NotImplementedException();
+            var result = await _dbContext.HomeBases.FindAsync(requestId);
+
+            return (result is not null);
         }
 
-        public Task<Result<HomeBaseResponse>> UpdateHomeBaseAsync(UpdateHomeBaseCommand request)
+        public async Task<Result<HomeBaseResponse>> UpdateHomeBaseAsync(UpdateHomeBaseCommand request)
         {
-            throw new System.NotImplementedException();
+            var baseToUpdate = await _dbContext.HomeBases.FindAsync(request.Id);
+
+            baseToUpdate = _mapper.Map(request, baseToUpdate);
+
+            _dbContext.Update(baseToUpdate);
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new Result<HomeBaseResponse>(new InternalErrorException(Error.ErrorWhileProcessingOperation));
+            }
+
+            return new Result<HomeBaseResponse>(_mapper.Map<HomeBaseResponse>(baseToUpdate));
         }
 
-        public Task<Result<bool>> DeleteHomeBaseAsync(string requestId)
+        public async Task<Result<bool>> DeleteHomeBaseAsync(string requestId)
         {
-            throw new System.NotImplementedException();
+            var baseInDb = await _dbContext.HomeBases.FindAsync(requestId);
+
+            if (baseInDb is null)
+                return new Result<bool>(new InternalErrorException(Error.ErrorWhileProcessingOperation));
+
+            _dbContext.HomeBases.Remove(baseInDb);
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new Result<bool>(new InternalErrorException(Error.ErrorWhileProcessingOperation));
+            }
+
+            return new Result<bool>(true);
         }
     }
 }

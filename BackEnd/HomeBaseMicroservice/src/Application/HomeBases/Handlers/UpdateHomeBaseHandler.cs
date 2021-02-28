@@ -1,12 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Exceptions;
 using Application.Common.Interfaces.Services;
 using Application.HomeBases.Commands;
 using Domain.DTOs;
 using LanguageExt.Common;
 using MediatR;
-using Error = Application.Common.Errors.Error;
 
 namespace Application.HomeBases.Handlers
 {
