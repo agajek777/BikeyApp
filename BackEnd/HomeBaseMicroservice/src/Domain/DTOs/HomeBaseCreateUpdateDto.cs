@@ -10,14 +10,17 @@ namespace Domain.DTOs
         public string Name { get; set; }
 
         [Required]
-        public Capacity Capacity { get; set; }
+        [Range(0, 20)]
+        public int Capacity { get; set; }
 
         [Required]
         [DefaultValue(52.217)]
-        public CoordinateLat CoordinateLat { get; set; }
+        [Range(49.0, 54.5)]
+        public double CoordinateLat { get; set; }
 
         [Required]
         [DefaultValue(21.0)]
-        public CoordinateLon CoordinateLon { get; set; }
+        [Range(14.117, 24.15)]
+        public double CoordinateLon { get; set; }
     }
 }

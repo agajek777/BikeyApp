@@ -30,15 +30,25 @@ namespace Infrastructure.Repositories
         {
             var result = 
                 from homebase in _dbContext.HomeBases
-                where homebase.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase)
+                where EF.Functions.Like(homebase.Name, name)
                 select homebase;
 
-            return (await result.AnyAsync());
+            return (!await result.AnyAsync());
         }
 
         public async Task<Result<HomeBaseResponse>> AddHomeBaseAsync(AddHomeBaseCommand request)
         {
-            var baseToAdd = _mapper.Map<HomeBase>(request);
+            HomeBase baseToAdd = new HomeBase();
+            
+            try
+            {
+                baseToAdd = _mapper.Map<HomeBase>(request);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new Result<HomeBaseResponse>(e);
+            }
 
             _dbContext.Add(baseToAdd);
 
@@ -87,7 +97,9 @@ namespace Infrastructure.Repositories
         {
             var baseToUpdate = await _dbContext.HomeBases.FindAsync(request.Id);
 
-            baseToUpdate = _mapper.Map(request, baseToUpdate);
+            var copy = baseToUpdate;
+
+            baseToUpdate = _mapper.Map<UpdateHomeBaseCommand, HomeBase>(request, baseToUpdate);
 
             _dbContext.Update(baseToUpdate);
 

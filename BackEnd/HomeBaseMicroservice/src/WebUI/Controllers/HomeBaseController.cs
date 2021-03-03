@@ -84,7 +84,7 @@ namespace WebUI.Controllers
         }
         
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromQuery] string id)
+        public async Task<IActionResult> Delete(string id)
         {
             var command = new DeleteHomeBaseCommand(id);
             

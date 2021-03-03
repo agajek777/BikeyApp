@@ -17,9 +17,7 @@ namespace Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<HomeBase>().OwnsOne(typeof(Capacity), "Capacity");
-            modelBuilder.Entity<HomeBase>().OwnsOne(typeof(CoordinateLon), "CoordinateLon");
-            modelBuilder.Entity<HomeBase>().OwnsOne(typeof(CoordinateLat), "CoordinateLat");
+            modelBuilder.Entity<HomeBase>().Property(h => h.Id).ValueGeneratedOnAdd();
             
             base.OnModelCreating(modelBuilder);
         }

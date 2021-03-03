@@ -1,18 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Application.Common.Interfaces.Repositories;
+using Application.Common.Interfaces.Services;
 using Infrastructure.Persistence;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace WebUI
@@ -37,6 +35,10 @@ namespace WebUI
 
             var assembly = AppDomain.CurrentDomain.Load("Application");
             services.AddMediatR(assembly);
+            services.AddAutoMapper(assembly);
+
+            services.AddScoped<IHomeBaseRepository, HomeBaseRepository>();
+            services.AddScoped<IHomeBaseService, HomeBaseService>();
 
         }
 
