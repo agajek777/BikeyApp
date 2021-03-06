@@ -12,15 +12,11 @@ namespace Domain.DTOs
         
         [Required]
         public string ModelId { get; set; }
-        [ForeignKey(nameof(ModelId))]
-        public Model Model { get; set; }
 
         [DefaultValue(Enums.State.Free)]
         public State State { get; set; }
 
         public string HomeBaseId { get; set; }
-        [ForeignKey(nameof(HomeBaseId))]
-        public virtual HomeBase HomeBase { get; set; }
 
         [Required]
         [DefaultValue(Enums.Size.M)]

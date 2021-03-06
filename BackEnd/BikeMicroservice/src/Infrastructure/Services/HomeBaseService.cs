@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using Infrastructure.Persistence;
 
@@ -22,7 +23,9 @@ namespace Infrastructure.Services
         {
             var homeBase = await _dbContext.HomeBases.FindAsync(requestHomeBaseId);
 
-            return (homeBase.Bikes.Count < homeBase.Capacity);
+            var bikesCount = _dbContext.Bikes.Where(b => b.HomeBaseId == requestHomeBaseId).Count();
+
+            return (bikesCount < homeBase.Capacity);
         }
     }
 }
