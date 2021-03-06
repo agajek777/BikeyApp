@@ -6,7 +6,7 @@ using LanguageExt.Common;
 
 namespace Application.Common.Interfaces
 {
-    public interface IBikeService
+    public interface IBikeRepository
     {
         bool CheckIfExists(string requestId);
         Task<Result<BikeResponse>> GetBikeAsync(string requestId);
