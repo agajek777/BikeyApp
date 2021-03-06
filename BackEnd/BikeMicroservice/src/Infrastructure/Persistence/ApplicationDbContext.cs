@@ -17,6 +17,10 @@ namespace Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Bike>().Property(b => b.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<HomeBase>().Property(b => b.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Model>().Property(b => b.Id).ValueGeneratedOnAdd();
+            
             modelBuilder.Entity<Bike>()
                 .Property(b => b.State)
                 .HasConversion<string>();
