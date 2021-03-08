@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
+using Domain.Entities;
 using Infrastructure.Persistence;
 
 namespace Infrastructure.Services
@@ -26,6 +27,13 @@ namespace Infrastructure.Services
             var bikesCount = _dbContext.Bikes.Where(b => b.HomeBaseId == requestHomeBaseId).Count();
 
             return (bikesCount < homeBase.Capacity);
+        }
+
+        public async Task AddHomeBaseAsync(HomeBase homeBase)
+        {
+            _dbContext.Add(homeBase);
+            
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
