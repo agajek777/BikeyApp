@@ -39,9 +39,13 @@ namespace Infrastructure.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteHomeBaseAsync(HomeBase homeBase)
+        public async Task DeleteHomeBaseAsync(HomeBase homeBase)
         {
-            throw new System.NotImplementedException();
+            var homeBaseInDb = _dbContext.HomeBases.Find(homeBase.Id);
+            
+            _dbContext.HomeBases.Remove(homeBaseInDb);
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateHomeBaseAsync(HomeBase homeBase)
