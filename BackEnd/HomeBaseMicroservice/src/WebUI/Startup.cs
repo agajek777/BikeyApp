@@ -1,6 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
+using Application.Common.Interfaces.Communication;
 using Application.Common.Interfaces.Repositories;
 using Application.Common.Interfaces.Services;
+using Infrastructure.Communication;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
@@ -12,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
 
 namespace WebUI
 {
@@ -30,6 +36,22 @@ namespace WebUI
             services.AddControllers();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "WebUI", Version = "v1"}); });
 
+            var factory = new ConnectionFactory
+            {
+                Uri = new Uri("amqps://kmvlcpdx:L0Nh4_djiqbyHZV1AxeQBAgq2b5Q_0dB@sparrow.rmq.cloudamqp.com/kmvlcpdx")
+            };
+            var connection = factory.CreateConnection();
+            var channel = connection.CreateModel();
+            channel.QueueDeclare("homebases-queue",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+            services.AddSingleton(channel);
+
+            services.AddScoped<IEventPublisher, HomeBaseEventPublisher>();
+            
+            
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
