@@ -2,6 +2,8 @@
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Enums;
+using Application.Common.Interfaces;
 using Application.Common.Interfaces.Communication;
 using AutoMapper;
 using Domain.DTOs;
@@ -33,18 +35,34 @@ namespace Infrastructure.Communication
             {
                 using (var scope = _serviceProvider.CreateScope())
                 {
-                    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                    var service = scope.ServiceProvider.GetRequiredService<IHomeBaseService>();
                 
                     var body = e.Body.ToArray();
                     var message = Encoding.UTF8.GetString(body);
                     var homebaseMessage = JsonConvert.DeserializeObject<HomeBasePostMessage>(message);
 
-                    var homeBase = homebaseMessage.Message;
-                
-                    Console.WriteLine(message);
-                    db.HomeBases.Add(_mapper.Map<HomeBaseResponse, HomeBase>(homeBase));
+                    var homeBaseResponse = homebaseMessage.Message;
+                    
+                    var homeBase = _mapper.Map<HomeBaseResponse, HomeBase>(homeBaseResponse);
 
-                    await db.SaveChangesAsync();
+                    switch (homebaseMessage.Method)
+                    {
+                        case nameof(ApiMethod.POST):
+                        {
+                            await service.AddHomeBaseAsync(homeBase);
+                            break;
+                        }
+                        case nameof(ApiMethod.DELETE):
+                        {
+                            await service.DeleteHomeBaseAsync(homeBase);
+                            break;
+                        }
+                        case nameof(ApiMethod.PUT):
+                        {
+                            await service.UpdateHomeBaseAsync(homeBase);
+                            break;
+                        }
+                    }
                 }
             });
             await Task.CompletedTask;

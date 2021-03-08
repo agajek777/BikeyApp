@@ -8,5 +8,7 @@ namespace Application.Common.Interfaces
         bool CheckIfExistsAsync(string requestHomeBaseId);
         Task<bool> CheckIfFreeSlotsAsync(string requestHomeBaseId);
         Task AddHomeBaseAsync(HomeBase homeBase);
+        Task DeleteHomeBaseAsync(HomeBase homeBase);
+        Task UpdateHomeBaseAsync(HomeBase homeBase);
     }
 }

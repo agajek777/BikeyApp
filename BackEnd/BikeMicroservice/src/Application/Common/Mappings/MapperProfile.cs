@@ -14,6 +14,7 @@ namespace Application.Common.Mappings
             CreateMap<Bike, UpdateBikeCommand>().ReverseMap();
 
             CreateMap<HomeBaseResponse, HomeBase>().ReverseMap();
+            CreateMap<HomeBase, HomeBase>();
         }
     }
 }
