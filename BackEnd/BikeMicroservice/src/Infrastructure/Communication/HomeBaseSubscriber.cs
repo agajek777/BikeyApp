@@ -36,10 +36,8 @@ namespace Infrastructure.Communication
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var service = scope.ServiceProvider.GetRequiredService<IHomeBaseService>();
-                
-                    var body = e.Body.ToArray();
-                    var message = Encoding.UTF8.GetString(body);
-                    var homebaseMessage = JsonConvert.DeserializeObject<HomeBasePostMessage>(message);
+
+                    var homebaseMessage = DecodeMessage(e);
 
                     var homeBaseResponse = homebaseMessage.Message;
                     
@@ -66,6 +64,15 @@ namespace Infrastructure.Communication
                 }
             });
             await Task.CompletedTask;
+        }
+
+        private HomeBaseEventMessage DecodeMessage(BasicDeliverEventArgs e)
+        {
+            var body = e.Body.ToArray();
+            
+            var message = Encoding.UTF8.GetString(body);
+            
+            return JsonConvert.DeserializeObject<HomeBaseEventMessage>(message);
         }
     }
 }
