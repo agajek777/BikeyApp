@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Common\Mappings" />
+      <Folder Include="Hires\Commands" />
+      <Folder Include="Hires\Handlers" />
+      <Folder Include="Hires\Queries" />
+    </ItemGroup>
+
+</Project>
