@@ -5,8 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Folder Include="Common\Exceptions" />
       <Folder Include="Common\Mappings" />
-      <Folder Include="Hires\Handlers" />
     </ItemGroup>
 
     <ItemGroup>
