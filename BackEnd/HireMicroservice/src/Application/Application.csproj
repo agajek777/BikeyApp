@@ -6,9 +6,16 @@
 
     <ItemGroup>
       <Folder Include="Common\Mappings" />
-      <Folder Include="Hires\Commands" />
       <Folder Include="Hires\Handlers" />
-      <Folder Include="Hires\Queries" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="LanguageExt.Core" Version="3.4.15" />
+      <PackageReference Include="MediatR" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>
 
 </Project>
