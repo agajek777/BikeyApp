@@ -10,5 +10,6 @@
         public static string BikeNotExists { get; set; } = "No bike with provided Id has been found.";
         public static string ClientNotExists { get; set; } = "No client with provided Id has been found.";
         public static string CannotModifyHire { get; set; } = "You do not have permission to modify BikeId nor ClientId.";
+        public static string ErrorWhileProcessing { get; set; } = "Error while processing a request. Try again later.";
     }
 }
