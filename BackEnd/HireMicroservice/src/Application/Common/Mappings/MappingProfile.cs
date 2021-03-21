@@ -11,6 +11,8 @@ namespace Application.Common.Mappings
         {
             CreateMap<Hire, HireResponse>().ReverseMap();
             CreateMap<Hire, CreateHireCommand>().ReverseMap();
+            CreateMap<HomeBase, HomeBaseResponse>().ReverseMap();
+            CreateMap<HomeBase, HomeBaseUpdateDto>().ReverseMap();
         }
     }
 }

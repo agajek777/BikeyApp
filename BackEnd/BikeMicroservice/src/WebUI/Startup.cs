@@ -54,14 +54,14 @@ namespace WebUI
             };
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();
-            channel.QueueDeclare("homebases-queue",
+            channel.QueueDeclare("homebase-bike-queue",
                 durable: true,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
 
             var consumer = new AsyncEventingBasicConsumer(channel);
-            channel.BasicConsume("homebases-queue", true, consumer);
+            channel.BasicConsume("homebase-bike-queue", true, consumer);
             services.AddSingleton<AsyncEventingBasicConsumer>(consumer);
             services.AddHostedService<HomeBaseSubscriber>();
 

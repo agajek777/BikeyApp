@@ -19,7 +19,7 @@ namespace Infrastructure.Communication
         {
             var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
             
-            _client.BasicPublish("", "homebases-queue", null, body);
+            _client.BasicPublish("amq.topic", "homebase", null, body);
         }
     }
 }
