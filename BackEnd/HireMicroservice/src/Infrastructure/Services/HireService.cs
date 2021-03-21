@@ -23,15 +23,11 @@ namespace Infrastructure.Services
             _clientService = clientService;
         }
 
-        public async Task<Result<List<HireResponse>>> GetAllHiresAsync()
-        {
-            return await _hireRepository.GetAllHiresAsync();
-        }
+        public async Task<Result<List<HireResponse>>> GetAllHiresAsync() 
+            => await _hireRepository.GetAllHiresAsync();
 
         public async Task<Result<bool>> CheckIfExistsAsync(string requestId)
-        {
-            return await _hireRepository.CheckIfExistsAsync(requestId);
-        }
+            => await _hireRepository.CheckIfExistsAsync(requestId);
 
         public async Task<Result<HireResponse>> GetHireAsync(string requestId)
         {
