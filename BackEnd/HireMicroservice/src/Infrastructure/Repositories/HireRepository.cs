@@ -8,6 +8,7 @@ using Application.Hires.Commands;
 using AutoMapper;
 using Domain.Dtos;
 using Domain.Entities;
+using Domain.Enums;
 using Infrastructure.Persistence;
 using LanguageExt.Common;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +65,12 @@ namespace Infrastructure.Repositories
             var hireToAdd = _mapper.Map<Hire>(request);
 
             _dbContext.Hires.Add(hireToAdd);
+
+            var bikeInDb = await _dbContext.Bikes.FindAsync(request.BikeId);
+
+            bikeInDb.State = State.Hired;
+
+            _dbContext.Bikes.Update(bikeInDb);
 
             try
             {

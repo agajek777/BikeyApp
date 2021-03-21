@@ -64,6 +64,8 @@ namespace WebUI
             channel.BasicConsume("homebase-bike-queue", true, consumer);
             services.AddSingleton<AsyncEventingBasicConsumer>(consumer);
             services.AddHostedService<HomeBaseSubscriber>();
+            services.AddSingleton(channel);
+            services.AddScoped<IEventPublisher, BikeEventPublisher>();
 
             var assembly = AppDomain.CurrentDomain.Load("Application");
             services.AddMediatR(assembly);

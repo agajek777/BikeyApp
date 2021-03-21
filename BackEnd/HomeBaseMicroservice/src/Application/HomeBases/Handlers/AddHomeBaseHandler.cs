@@ -30,6 +30,7 @@ namespace Application.HomeBases.Handlers
             {
                 var message = new HomeBasePostMessage()
                 {
+                    MessageType = s.GetType().Name,
                     Method = ApiMethod.POST.ToString(),
                     Message = s
                 };

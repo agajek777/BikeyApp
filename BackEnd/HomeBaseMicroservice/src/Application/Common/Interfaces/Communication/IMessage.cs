@@ -1,10 +1,9 @@
-﻿using Application.Common.Enums;
-
-namespace Application.Common.Interfaces.Communication
+﻿namespace Application.Common.Interfaces.Communication
 {
-    public interface IMessage
+    public interface IMessage<T>
     {
+        public string MessageType { get; set; }
         public string Method { get; set; }
-        public object Message { get; set; }
+        public T Message { get; set; }
     }
 }
