@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Common.Enums;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Interfaces.Communication;
 using Application.Hires.Commands;
 using AutoMapper;
 using Domain.Dtos;
@@ -20,11 +22,13 @@ namespace Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly IEventPublisher _client;
 
-        public HireRepository(ApplicationDbContext dbContext, IMapper mapper)
+        public HireRepository(ApplicationDbContext dbContext, IMapper mapper, IEventPublisher client)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _client = client;
         }
 
         public async Task<Result<List<HireResponse>>> GetAllHiresAsync()
@@ -69,6 +73,13 @@ namespace Infrastructure.Repositories
             var bikeInDb = await _dbContext.Bikes.FindAsync(request.BikeId);
 
             bikeInDb.State = State.Hired;
+            
+            _client.PublishEvent(new HireEventMessage()
+            {
+                MessageType = bikeInDb.GetType().Name,
+                Method = ApiMethod.PUT.ToString(),
+                Message = bikeInDb
+            });
 
             _dbContext.Bikes.Update(bikeInDb);
 

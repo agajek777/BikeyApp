@@ -95,7 +95,7 @@ namespace Infrastructure.Services
                 return new Result<HireResponse>(exception);
             }
 
-            return new Result<HireResponse>();
+            return new Result<HireResponse>(new HireResponse());
         }
     }
 }

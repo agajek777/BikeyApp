@@ -59,11 +59,17 @@ namespace WebUI
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
+            channel.QueueDeclare("hire-bike-queue",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
 
             var consumer = new AsyncEventingBasicConsumer(channel);
             channel.BasicConsume("homebase-bike-queue", true, consumer);
+            channel.BasicConsume("hire-bike-queue", true, consumer);
             services.AddSingleton<AsyncEventingBasicConsumer>(consumer);
-            services.AddHostedService<HomeBaseSubscriber>();
+            services.AddHostedService<RabbitSubscriber>();
             services.AddSingleton(channel);
             services.AddScoped<IEventPublisher, BikeEventPublisher>();
 

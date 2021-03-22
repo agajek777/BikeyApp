@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
+using Application.Common.Interfaces.Communication;
 using Infrastructure.Communication;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
@@ -64,12 +65,19 @@ namespace WebUI
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
+            channel.QueueDeclare("hire-bike-queue",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
 
             var consumer = new AsyncEventingBasicConsumer(channel);
             channel.BasicConsume("homebase-hire-queue", true, consumer);
             channel.BasicConsume("bike-hire-queue", true, consumer);
             services.AddSingleton<AsyncEventingBasicConsumer>(consumer);
             services.AddHostedService<RabbitSubscriber>();
+            services.AddSingleton(channel);
+            services.AddScoped<IEventPublisher, BikeEventPublisher>();
 
             services.AddScoped<IBikeService, BikeService>();
             services.AddScoped<IClientService, ClientService>();
