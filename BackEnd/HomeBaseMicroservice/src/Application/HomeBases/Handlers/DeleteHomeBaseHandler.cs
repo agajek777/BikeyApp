@@ -29,7 +29,7 @@ namespace Application.HomeBases.Handlers
             {
                 var message = new HomeBasePostMessage()
                 {
-                    MessageType = s.GetType().Name,
+                    MessageType = nameof(HomeBaseResponse),
                     Method = ApiMethod.DELETE.ToString(),
                     Message = new HomeBaseResponse
                     {

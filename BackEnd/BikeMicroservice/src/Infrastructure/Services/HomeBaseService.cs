@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
@@ -42,7 +44,7 @@ namespace Infrastructure.Services
         public async Task DeleteHomeBaseAsync(HomeBase homeBase)
         {
             var homeBaseInDb = _dbContext.HomeBases.Find(homeBase.Id);
-            
+
             _dbContext.HomeBases.Remove(homeBaseInDb);
 
             await _dbContext.SaveChangesAsync();

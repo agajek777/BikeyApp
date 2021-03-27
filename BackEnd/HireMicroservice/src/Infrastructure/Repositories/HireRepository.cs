@@ -103,6 +103,22 @@ namespace Infrastructure.Repositories
             if (hireInDb is null)
                 return new Result<HireResponse>(new InternalServerException(Error.ErrorWhileProcessing));
 
+            if (request.State == HireState.Terminated)
+            {
+                var bikeInDb = await _dbContext.Bikes.FindAsync(request.BikeId);
+
+                bikeInDb.State = State.Free;
+            
+                _client.PublishEvent(new HireEventMessage()
+                {
+                    MessageType = bikeInDb.GetType().Name,
+                    Method = ApiMethod.PUT.ToString(),
+                    Message = bikeInDb
+                });
+
+                _dbContext.Bikes.Update(bikeInDb);
+            }
+
             hireInDb = _mapper.Map(request, hireInDb);
 
             try
