@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using AutoMapper;
+using Domain.Dtos;
 using Domain.Entities;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -20,23 +19,9 @@ namespace Infrastructure.Services
             _mapper = mapper;
         }
 
-        public bool CheckIfExistsAsync(string requestHomeBaseId)
-        {
-            return _dbContext.HomeBases.Exists(b => b.Id == requestHomeBaseId);
-        }
-
-        public async Task<bool> CheckIfFreeSlotsAsync(string requestHomeBaseId)
-        {
-            var homeBase = await _dbContext.HomeBases.FindAsync(requestHomeBaseId);
-
-            var bikesCount = _dbContext.Bikes.Where(b => b.HomeBaseId == requestHomeBaseId).Count();
-
-            return (bikesCount < homeBase.Capacity);
-        }
-
         public async Task AddHomeBaseAsync(HomeBase homeBase)
         {
-            _dbContext.Add(homeBase);
+            _dbContext.HomeBases.Add(homeBase);
             
             await _dbContext.SaveChangesAsync();
         }
@@ -44,18 +29,18 @@ namespace Infrastructure.Services
         public async Task DeleteHomeBaseAsync(HomeBase homeBase)
         {
             var homeBaseInDb = _dbContext.HomeBases.Find(homeBase.Id);
-
+            
             _dbContext.HomeBases.Remove(homeBaseInDb);
 
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateHomeBaseAsync(HomeBase homeBase)
+        public async Task UpdateHomeBaseAsync(HomeBaseUpdateDto homeBase)
         {
             var homeBaseInDb = _dbContext.HomeBases.Find(homeBase.Id);
 
             homeBaseInDb = _mapper.Map(homeBase, homeBaseInDb);
-
+            
             _dbContext.HomeBases.Update(homeBaseInDb);
 
             await _dbContext.SaveChangesAsync();

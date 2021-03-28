@@ -1,11 +1,11 @@
-﻿using Domain.DTOs;
+﻿using Domain.Entities;
 
 namespace Application.Common.Interfaces.Communication
 {
-    public class HomeBasePostMessage : IMessage<HomeBaseResponse>
+    public class HireEventMessage : IMessage<Bike>
     {
         public string MessageType { get; set; }
         public string Method { get; set; }
-        public HomeBaseResponse Message { get; set; }
+        public Bike Message { get; set; }
     }
 }

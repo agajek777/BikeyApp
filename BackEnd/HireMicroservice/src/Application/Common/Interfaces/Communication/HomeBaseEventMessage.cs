@@ -1,8 +1,8 @@
-﻿using Domain.DTOs;
+﻿using Domain.Dtos;
 
 namespace Application.Common.Interfaces.Communication
 {
-    public class HomeBasePostMessage : IMessage<HomeBaseResponse>
+    public class HomeBaseEventMessage : IMessage<HomeBaseResponse>
     {
         public string MessageType { get; set; }
         public string Method { get; set; }

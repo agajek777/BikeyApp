@@ -2,10 +2,10 @@
 
 namespace Application.Common.Interfaces.Communication
 {
-    public class HomeBasePostMessage : IMessage<HomeBaseResponse>
+    public class BikeEventMessage : IMessage<BikeResponse>
     {
         public string MessageType { get; set; }
         public string Method { get; set; }
-        public HomeBaseResponse Message { get; set; }
+        public BikeResponse Message { get; set; }
     }
 }

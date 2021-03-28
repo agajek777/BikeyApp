@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Common.Enums;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Common.Interfaces.Communication;
 using Application.Hires.Commands;
 using AutoMapper;
 using Domain.Dtos;
 using Domain.Entities;
+using Domain.Enums;
 using Infrastructure.Persistence;
 using LanguageExt.Common;
 using Microsoft.EntityFrameworkCore;
@@ -19,11 +22,13 @@ namespace Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly IEventPublisher _client;
 
-        public HireRepository(ApplicationDbContext dbContext, IMapper mapper)
+        public HireRepository(ApplicationDbContext dbContext, IMapper mapper, IEventPublisher client)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _client = client;
         }
 
         public async Task<Result<List<HireResponse>>> GetAllHiresAsync()
@@ -65,6 +70,19 @@ namespace Infrastructure.Repositories
 
             _dbContext.Hires.Add(hireToAdd);
 
+            var bikeInDb = await _dbContext.Bikes.FindAsync(request.BikeId);
+
+            bikeInDb.State = State.Hired;
+            
+            _client.PublishEvent(new HireEventMessage()
+            {
+                MessageType = bikeInDb.GetType().Name,
+                Method = ApiMethod.PUT.ToString(),
+                Message = bikeInDb
+            });
+
+            _dbContext.Bikes.Update(bikeInDb);
+
             try
             {
                 await _dbContext.SaveChangesAsync();
@@ -84,6 +102,22 @@ namespace Infrastructure.Repositories
 
             if (hireInDb is null)
                 return new Result<HireResponse>(new InternalServerException(Error.ErrorWhileProcessing));
+
+            if (request.State == HireState.Terminated)
+            {
+                var bikeInDb = await _dbContext.Bikes.FindAsync(request.BikeId);
+
+                bikeInDb.State = State.Free;
+            
+                _client.PublishEvent(new HireEventMessage()
+                {
+                    MessageType = bikeInDb.GetType().Name,
+                    Method = ApiMethod.PUT.ToString(),
+                    Message = bikeInDb
+                });
+
+                _dbContext.Bikes.Update(bikeInDb);
+            }
 
             hireInDb = _mapper.Map(request, hireInDb);
 

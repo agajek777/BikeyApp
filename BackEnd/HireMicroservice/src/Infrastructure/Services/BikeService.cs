@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using AutoMapper;
+using Domain.Entities;
 using Domain.Enums;
 using Infrastructure.Persistence;
 using LanguageExt.Common;
@@ -12,10 +14,12 @@ namespace Infrastructure.Services
     public class BikeService : IBikeService
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public BikeService(ApplicationDbContext dbContext)
+        public BikeService(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<Result<bool>> CheckIfBikeAvailableAsync(string requestBikeId)
@@ -41,6 +45,31 @@ namespace Infrastructure.Services
                 return new Result<bool>(new BadRequestException(Error.BikeNotExists));
 
             return new Result<bool>(true);
+        }
+
+        public async Task AddBikeAsync(Bike bike)
+        {
+            _dbContext.Add(bike);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteBikeAsync(Bike bike)
+        {
+            _dbContext.Remove(bike);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateBikeAsync(Bike bike)
+        {
+            var bikeInDb = await _dbContext.Bikes.FindAsync(bike.Id);
+
+            bikeInDb = _mapper.Map<Bike, Bike>(bike, bikeInDb);
+
+            _dbContext.Update(bikeInDb);
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

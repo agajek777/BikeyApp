@@ -42,11 +42,7 @@ namespace WebUI
             };
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();
-            channel.QueueDeclare("homebases-queue",
-                durable: true,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
+            
             services.AddSingleton(channel);
 
             services.AddScoped<IEventPublisher, HomeBaseEventPublisher>();

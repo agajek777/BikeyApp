@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
+using Application.Common.Interfaces.Communication;
+using Infrastructure.Communication;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
@@ -17,6 +19,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 namespace WebUI
 {
@@ -37,11 +41,44 @@ namespace WebUI
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            
             var assembly = AppDomain.CurrentDomain.Load("Application");
             services.AddMediatR(assembly);
             services.AddAutoMapper(assembly);
+
+            services.AddScoped<IHomeBaseService, HomeBaseService>();
             
+            var factory = new ConnectionFactory
+            {
+                DispatchConsumersAsync = true,
+                Uri = new Uri("amqps://kmvlcpdx:L0Nh4_djiqbyHZV1AxeQBAgq2b5Q_0dB@sparrow.rmq.cloudamqp.com/kmvlcpdx")
+            };
+            var connection = factory.CreateConnection();
+            var channel = connection.CreateModel();
+            channel.QueueDeclare("homebase-hire-queue",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+            channel.QueueDeclare("bike-hire-queue",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+            channel.QueueDeclare("hire-bike-queue",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+
+            var consumer = new AsyncEventingBasicConsumer(channel);
+            channel.BasicConsume("homebase-hire-queue", true, consumer);
+            channel.BasicConsume("bike-hire-queue", true, consumer);
+            services.AddSingleton<AsyncEventingBasicConsumer>(consumer);
+            services.AddHostedService<RabbitSubscriber>();
+            services.AddSingleton(channel);
+            services.AddScoped<IEventPublisher, BikeEventPublisher>();
+
             services.AddScoped<IBikeService, BikeService>();
             services.AddScoped<IClientService, ClientService>();
             

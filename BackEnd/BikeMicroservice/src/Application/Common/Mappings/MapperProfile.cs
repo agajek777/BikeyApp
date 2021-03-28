@@ -12,6 +12,7 @@ namespace Application.Common.Mappings
             CreateMap<Bike, BikeResponse>().ReverseMap();
             CreateMap<Bike, AddBikeCommand>().ReverseMap();
             CreateMap<Bike, UpdateBikeCommand>().ReverseMap();
+            CreateMap<BikeResponse, UpdateBikeCommand>().ReverseMap();
 
             CreateMap<HomeBaseResponse, HomeBase>().ReverseMap();
             CreateMap<HomeBase, HomeBase>();
