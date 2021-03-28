@@ -4,6 +4,7 @@
     {
         Free,
         Hired,
-        Damaged
+        Damaged,
+        Stored
     }
 }

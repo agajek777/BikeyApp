@@ -12,7 +12,7 @@ namespace Domain.Entities
         [ForeignKey(nameof(ModelId))]
         public Model Model { get; set; }
 
-        [DefaultValue(Enums.State.Free)]
+        [DefaultValue(Enums.State.Stored)]
         public State State { get; set; }
 
         public string HomeBaseId { get; set; }
