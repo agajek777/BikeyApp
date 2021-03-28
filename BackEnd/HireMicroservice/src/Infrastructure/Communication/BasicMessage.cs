@@ -1,4 +1,6 @@
-﻿namespace Application.Common.Interfaces.Communication
+﻿using Application.Common.Interfaces.Communication;
+
+namespace Infrastructure.Communication
 {
     public class BasicMessage : IMessage<object>
     {

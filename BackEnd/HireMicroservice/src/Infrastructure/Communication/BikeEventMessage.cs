@@ -1,6 +1,7 @@
-﻿using Domain.Dtos;
+﻿using Application.Common.Interfaces.Communication;
+using Domain.Dtos;
 
-namespace Application.Common.Interfaces.Communication
+namespace Infrastructure.Communication
 {
     public class BikeEventMessage : IMessage<BikeResponse>
     {

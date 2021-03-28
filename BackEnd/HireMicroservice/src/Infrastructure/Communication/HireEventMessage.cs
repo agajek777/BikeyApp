@@ -1,6 +1,7 @@
-﻿using Domain.Entities;
+﻿using Application.Common.Interfaces.Communication;
+using Domain.Entities;
 
-namespace Application.Common.Interfaces.Communication
+namespace Infrastructure.Communication
 {
     public class HireEventMessage : IMessage<Bike>
     {

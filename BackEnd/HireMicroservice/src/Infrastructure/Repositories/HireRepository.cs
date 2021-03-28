@@ -11,6 +11,7 @@ using AutoMapper;
 using Domain.Dtos;
 using Domain.Entities;
 using Domain.Enums;
+using Infrastructure.Communication;
 using Infrastructure.Persistence;
 using LanguageExt.Common;
 using Microsoft.EntityFrameworkCore;

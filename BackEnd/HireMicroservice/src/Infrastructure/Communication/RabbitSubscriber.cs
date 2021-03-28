@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Enums;
 using Application.Common.Interfaces;
-using Application.Common.Interfaces.Communication;
 using AutoMapper;
 using Domain.Dtos;
 using Domain.Entities;
