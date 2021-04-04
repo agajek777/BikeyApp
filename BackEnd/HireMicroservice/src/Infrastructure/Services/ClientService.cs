@@ -42,5 +42,19 @@ namespace Infrastructure.Services
 
             return new Result<bool>(true);
         }
+
+        public async Task AddClientAsync(Client client)
+        {
+            _dbContext.Add(client);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteClientAsync(Client client)
+        {
+            _dbContext.Remove(client);
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

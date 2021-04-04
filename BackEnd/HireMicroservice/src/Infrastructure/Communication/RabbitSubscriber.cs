@@ -43,6 +43,10 @@ namespace Infrastructure.Communication
                     {
                         await UpdateBike(scope, e, decodedMessage);
                     }
+                    if (decodedMessage.MessageType == "UserResponse")
+                    {
+                        await UpdateClient(scope, e, decodedMessage);
+                    }
                 }
             });
             await Task.CompletedTask;
@@ -107,6 +111,31 @@ namespace Infrastructure.Communication
                 }
             }
         }
+        
+        private async Task UpdateClient(IServiceScope scope, BasicDeliverEventArgs e, BasicMessage decodedMessage)
+        {
+            var service = scope.ServiceProvider.GetRequiredService<IClientService>();
+
+            var decodedClient = DecodeClient(e);
+
+            var userResponse = decodedClient.Message;
+
+            var client = _mapper.Map<UserResponse, Client>(userResponse);
+
+            switch (decodedMessage.Method)
+            {
+                case nameof(ApiMethod.POST):
+                {
+                    await service.AddClientAsync(client);
+                    break;
+                }
+                case nameof(ApiMethod.DELETE):
+                {
+                    await service.DeleteClientAsync(client);
+                    break;
+                }
+            }
+        }
 
         private BasicMessage DecodeMessage(BasicDeliverEventArgs e)
         {
@@ -133,6 +162,15 @@ namespace Infrastructure.Communication
             var message = Encoding.UTF8.GetString(body);
             
             return JsonConvert.DeserializeObject<BikeEventMessage>(message);
+        }
+        
+        private ClientEventMessage DecodeClient(BasicDeliverEventArgs e)
+        {
+            var body = e.Body.ToArray();
+            
+            var message = Encoding.UTF8.GetString(body);
+            
+            return JsonConvert.DeserializeObject<ClientEventMessage>(message);
         }
     }
 }
