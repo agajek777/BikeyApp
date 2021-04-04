@@ -74,6 +74,7 @@ namespace WebUI
             var consumer = new AsyncEventingBasicConsumer(channel);
             channel.BasicConsume("homebase-hire-queue", true, consumer);
             channel.BasicConsume("bike-hire-queue", true, consumer);
+            channel.BasicConsume("identity-hire-queue", true, consumer);
             services.AddSingleton<AsyncEventingBasicConsumer>(consumer);
             services.AddHostedService<RabbitSubscriber>();
             services.AddSingleton(channel);

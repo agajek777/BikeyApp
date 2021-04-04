@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Common.Interfaces.Communication;
 using Application.Common.Interfaces.Services;
 using Domain.Entities;
+using Infrastructure.Communication;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
 using MediatR;
@@ -18,6 +20,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 namespace WebUI
 {
@@ -43,9 +47,25 @@ namespace WebUI
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var appAssembly = AppDomain.CurrentDomain.Load("Application");
-            services.AddMediatR(appAssembly);
             
+            services.AddMediatR(appAssembly);
             services.AddAutoMapper(appAssembly);
+            
+            var factory = new ConnectionFactory
+            {
+                DispatchConsumersAsync = true,
+                Uri = new Uri("amqps://kmvlcpdx:L0Nh4_djiqbyHZV1AxeQBAgq2b5Q_0dB@sparrow.rmq.cloudamqp.com/kmvlcpdx")
+            };
+            var connection = factory.CreateConnection();
+            var channel = connection.CreateModel();
+            channel.QueueDeclare("identity-hire-queue",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+
+            services.AddSingleton(channel);
+            services.AddScoped<IEventPublisher, UserEventPublisher>();
 
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IAuthService, AuthService>();
