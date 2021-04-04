@@ -11,6 +11,7 @@ using AutoMapper;
 using Domain.Dtos;
 using Domain.Entities;
 using Domain.Enums;
+using Infrastructure.Communication;
 using Infrastructure.Persistence;
 using LanguageExt.Common;
 using Microsoft.EntityFrameworkCore;
@@ -72,16 +73,7 @@ namespace Infrastructure.Repositories
 
             var bikeInDb = await _dbContext.Bikes.FindAsync(request.BikeId);
 
-            bikeInDb.State = State.Hired;
-            
-            _client.PublishEvent(new HireEventMessage()
-            {
-                MessageType = bikeInDb.GetType().Name,
-                Method = ApiMethod.PUT.ToString(),
-                Message = bikeInDb
-            });
-
-            _dbContext.Bikes.Update(bikeInDb);
+            SetBikeState(ref bikeInDb, State.Hired);
 
             try
             {
@@ -103,20 +95,11 @@ namespace Infrastructure.Repositories
             if (hireInDb is null)
                 return new Result<HireResponse>(new InternalServerException(Error.ErrorWhileProcessing));
 
-            if (request.State == HireState.Terminated)
+            if (hireInDb.State == HireState.Active && request.State == HireState.Terminated)
             {
                 var bikeInDb = await _dbContext.Bikes.FindAsync(request.BikeId);
 
-                bikeInDb.State = State.Free;
-            
-                _client.PublishEvent(new HireEventMessage()
-                {
-                    MessageType = bikeInDb.GetType().Name,
-                    Method = ApiMethod.PUT.ToString(),
-                    Message = bikeInDb
-                });
-
-                _dbContext.Bikes.Update(bikeInDb);
+                SetBikeState(ref bikeInDb, State.Free);
             }
 
             hireInDb = _mapper.Map(request, hireInDb);
@@ -155,5 +138,25 @@ namespace Infrastructure.Repositories
 
             return new Result<bool>(true);
         }
+
+        private void PublishBikePutEvent(Bike bikeInDb)
+        {
+            _client.PublishEvent(new HireEventMessage()
+            {
+                MessageType = bikeInDb.GetType().Name,
+                Method = ApiMethod.PUT.ToString(),
+                Message = bikeInDb
+            });
+        }
+        
+        private void SetBikeState(ref Bike bikeInDb, State state)
+        {
+            bikeInDb.State = state;
+
+            PublishBikePutEvent(bikeInDb);
+
+            _dbContext.Bikes.Update(bikeInDb);
+        }
+        
     }
 }

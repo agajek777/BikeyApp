@@ -6,8 +6,8 @@ namespace Application.Common.Interfaces.Communication
 {
     public interface IEventSubscriber
     {
-        Task addHomeBase(object? sender, BasicDeliverEventArgs e);
-        void deleteHomeBase(HomeBase homeBase);
-        void updateHomeBase(HomeBase homeBase);
+        Task AddHomeBase(object? sender, BasicDeliverEventArgs e);
+        void DeleteHomeBase(HomeBase homeBase);
+        void UpdateHomeBase(HomeBase homeBase);
     }
 }
