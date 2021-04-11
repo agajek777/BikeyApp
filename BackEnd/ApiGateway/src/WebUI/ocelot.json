@@ -50,7 +50,24 @@
         }
       ],
       "UpstreamPathTemplate": "/homebase-service/homebase/{id}",
-      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "Key": "HomebaseById"
+    },
+    {
+      "DownstreamPathTemplate": "/api/homebase/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5005
+        }
+      ],
+      "UpstreamPathTemplate": "/homebase-service/homebase/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
@@ -70,7 +87,8 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
-      }
+      },
+      "Key": "BikesByHomeBaseId"
     },
     {
       "DownstreamPathTemplate": "/api/bike/{id}",
@@ -119,6 +137,15 @@
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
+    }
+  ],
+  "Aggregates": [
+    {
+      "RouteKeys": [
+        "HomebaseById",
+        "BikesByHomeBaseId"
+      ],
+      "UpstreamPathTemplate": "/api/homebasewithbikes/{id}"
     }
   ],
   "GlobalConfiguration": {
