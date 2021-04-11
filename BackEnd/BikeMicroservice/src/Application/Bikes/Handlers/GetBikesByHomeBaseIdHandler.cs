@@ -2,17 +2,25 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Bikes.Queries;
+using Application.Common.Interfaces;
 using Domain.DTOs;
 using LanguageExt.Common;
 using MediatR;
 
 namespace Application.Bikes.Handlers
 {
-    public class GetBikesByHomeBaseIdHandler : IRequestHandler<GetAllBikesQuery, Result<List<BikeResponse>>>
+    public class GetBikesByHomeBaseIdHandler : IRequestHandler<GetBikesByHomeBaseId, Result<List<BikeResponse>>>
     {
-        public Task<Result<List<BikeResponse>>> Handle(GetAllBikesQuery request, CancellationToken cancellationToken)
+        private readonly IBikeService _bikeService;
+
+        public GetBikesByHomeBaseIdHandler(IBikeService bikeService)
         {
-            throw new System.NotImplementedException();
+            _bikeService = bikeService;
+        }
+
+        public async Task<Result<List<BikeResponse>>> Handle(GetBikesByHomeBaseId request, CancellationToken cancellationToken)
+        {
+            return await _bikeService.GetBikesInHomeBaseAsync(request.HomeBaseId);
         }
     }
 }

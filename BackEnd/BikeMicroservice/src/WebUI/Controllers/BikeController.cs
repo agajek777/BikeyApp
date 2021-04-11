@@ -50,6 +50,22 @@ namespace WebUI.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError);
                 });
         }
+        
+        [HttpGet("GetBikesInHb/{homeBaseId}")]
+        public async Task<IActionResult> GetBikesInHomeBase(string homeBaseId)
+        {
+            var query = new GetBikesByHomeBaseId(homeBaseId);
+
+            return (await _mediator.Send(query)).Match<IActionResult>(
+                s => Ok(s),
+                f =>
+                {
+                    if (f is BadRequestException)
+                        return BadRequest(f.Message);
+
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                });
+        }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddBikeCommand command)

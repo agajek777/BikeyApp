@@ -87,8 +87,7 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
-      },
-      "Key": "BikesByHomeBaseId"
+      }
     },
     {
       "DownstreamPathTemplate": "/api/bike/{id}",
@@ -105,6 +104,23 @@
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
+    },
+    {
+      "DownstreamPathTemplate": "/api/bike/GetBikesInHb/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5007
+        }
+      ],
+      "UpstreamPathTemplate": "/bike-service/GetBikesInHb/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "Key": "BikesByHomeBaseId"
     },
     {
       "DownstreamPathTemplate": "/api/hire",

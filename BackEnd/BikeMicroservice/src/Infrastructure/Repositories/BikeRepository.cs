@@ -113,5 +113,16 @@ namespace Infrastructure.Repositories
 
             return new Result<bool>(true);
         }
+
+        public async Task<Result<List<BikeResponse>>> GetBikesInHomeBaseAsync(string requestHomeBaseId)
+        {
+            return new Result<List<BikeResponse>>(
+                    await 
+                        (from bike in _dbContext.Bikes
+                        where bike.HomeBaseId == requestHomeBaseId
+                        select _mapper.Map<BikeResponse>(bike))
+                            .ToListAsync()
+                        );
+        }
     }
 }

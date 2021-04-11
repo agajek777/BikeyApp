@@ -86,5 +86,13 @@ namespace Infrastructure.Services
             return await _bikeRepository.DeleteBikeAsync(requestId);
 
         }
+
+        public async Task<Result<List<BikeResponse>>> GetBikesInHomeBaseAsync(string requestHomeBaseId)
+        {
+            if (!_homeBaseService.CheckIfExistsAsync(requestHomeBaseId))
+                return new Result<List<BikeResponse>>(new BadRequestException(Error.HomeBaseNotFound));
+
+            return await _bikeRepository.GetBikesInHomeBaseAsync(requestHomeBaseId);
+        }
     }
 }
