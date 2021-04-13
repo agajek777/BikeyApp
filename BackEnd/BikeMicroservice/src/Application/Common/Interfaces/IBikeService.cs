@@ -14,5 +14,6 @@ namespace Application.Common.Interfaces
         Task<Result<BikeResponse>> AddBikeAsync(AddBikeCommand request);
         Task<Result<BikeResponse>> UpdateBikeAsync(UpdateBikeCommand request);
         Task<Result<bool>> DeleteBikeAsync(string requestId);
+        Task<Result<List<BikeResponse>>> GetBikesInHomeBaseAsync(string requestHomeBaseId);
     }
 }
