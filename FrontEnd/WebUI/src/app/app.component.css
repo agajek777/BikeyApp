@@ -1,0 +1,23 @@
+mat-drawer-content {
+    background-color: aqua;
+    height: 100vh;
+}
+
+.drawer {
+    background-color: #9c1de7;
+    height: 100vh;
+    width: 30vw;
+}
+
+.navbar {
+    background-color: #581b98;
+    height: 40px;
+}
+
+.content {
+    
+}
+
+.drawer-container {
+    
+}
