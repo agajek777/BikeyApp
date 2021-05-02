@@ -1,17 +1,90 @@
 mat-drawer-content {
-    background-color: aqua;
     height: 100vh;
 }
 
 .drawer {
-    background-color: #9c1de7;
+    background-color: #22d1ee;
+    color: white;
     height: 100vh;
     width: 30vw;
 }
 
+.drawer-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 30vw;
+    font-size: 18px;
+}
+
+.navbar-link {
+    margin: 15px 0px 0px;
+}
+
+.menu-drawer {
+    background-color:#0e153a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    width: 30vw;
+}
+
 .navbar {
-    background-color: #581b98;
-    height: 40px;
+    background-color:#0e153a;
+    height: 45px;
+    font-size: 19px;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.bike-logo {
+    margin: 15px 0px 0px;
+}
+
+.menu-button {
+    margin: 7px 5px 0px 5px;
+}
+
+.navbar a {
+    margin: 6px 5px 0px;
+}
+
+.buttons {
+    margin: 8px 8px 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.desktop-buttons {
+    display: none;
+}
+
+@media screen and (min-width: 750px) {
+    .buttons {
+        margin-left: 25px;    
+    }
+
+    .desktop-buttons {
+        margin: 7px 0px 0px;
+        display: block;
+    }
+
+    .desktop-buttons a {
+        margin: 0px 0px 0px 25px;
+    }
+
+    .menu-button {
+        display: none;
+    }
+
+    .navbar {
+        height: 65px;
+        font-size: 22px;
+    }
 }
 
 .content {
