@@ -1,21 +1,34 @@
 <div class="main">
   <mat-drawer-container class="drawer-container" hasBackdrop="false">
     <mat-drawer class="drawer" #drawer mode="side">
-      <p>Link</p>
-      <p>Link</p>
-      <p>Link</p>
-      <p>Link</p>
-      <p>Link</p>
-      <p>Link</p>
+      <div class="drawer-items">
+        <div class="menu-drawer">
+          Menu
+        </div>
+        <div class="navbar-link">Hire a Bike!</div>
+        <div class="navbar-link">Bases</div>
+        <div class="navbar-link">Models</div>
+        <div [routerLink]="['/login']" routerLinkActive="router-link-active" class="navbar-link">Sign In</div>
+      </div>
     </mat-drawer>
     <mat-drawer-content>
       <div class="navbar">
-        <mat-icon class="menu-button" (click)="drawer.toggle()">menu</mat-icon>
-        <a>Link</a>
-        <a>Link</a>
-        <a>Link</a>
+        <div class="buttons">
+          <mat-icon class="menu-button" (click)="drawer.toggle()">
+            menu
+          </mat-icon>
+          <a class="logo-text">BikeyApp</a>
+          <mat-icon style="margin: 7px 20px 0px 0px; cursor: pointer;" class="bike-logo">pedal_bike</mat-icon>
+          <div class="desktop-buttons">
+            <a>Hire a Bike!</a>
+            <a>Bases</a>
+            <a>Models</a>
+            <a [routerLink]="['/login']" routerLinkActive="router-link-active" >Sign In</a>
+          </div>
+        </div>
       </div>
       <div class="content">
+
       </div>
     </mat-drawer-content>
   </mat-drawer-container>
