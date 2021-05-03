@@ -20,6 +20,8 @@ mat-drawer-content {
 
 .navbar-link {
     margin: 15px 0px 0px;
+    text-decoration: none;
+    color: white;
 }
 
 .menu-drawer {
@@ -62,6 +64,14 @@ mat-drawer-content {
 
 .desktop-buttons {
     display: none;
+    text-decoration: none;
+    color: white;
+}
+
+.logo-text {
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
 }
 
 @media screen and (min-width: 750px) {
@@ -72,10 +82,6 @@ mat-drawer-content {
     .desktop-buttons {
         margin: 7px 0px 0px;
         display: block;
-    }
-
-    .logo-text {
-        cursor: pointer;
     }
 
     .desktop-buttons a {
