@@ -8,7 +8,7 @@
         <div class="navbar-link">Hire a Bike!</div>
         <div class="navbar-link">Bases</div>
         <div class="navbar-link">Models</div>
-        <div class="navbar-link">Sign In</div>
+        <div [routerLink]="['/login']" routerLinkActive="router-link-active" class="navbar-link">Sign In</div>
       </div>
     </mat-drawer>
     <mat-drawer-content>
@@ -18,16 +18,17 @@
             menu
           </mat-icon>
           <a class="logo-text">BikeyApp</a>
-          <mat-icon style="margin: 7px 20px 0px 0px;" class="bike-logo">pedal_bike</mat-icon>
+          <mat-icon style="margin: 7px 20px 0px 0px; cursor: pointer;" class="bike-logo">pedal_bike</mat-icon>
           <div class="desktop-buttons">
             <a>Hire a Bike!</a>
             <a>Bases</a>
             <a>Models</a>
-            <a>Sign In</a>
+            <a [routerLink]="['/login']" routerLinkActive="router-link-active" >Sign In</a>
           </div>
         </div>
       </div>
       <div class="content">
+
       </div>
     </mat-drawer-content>
   </mat-drawer-container>

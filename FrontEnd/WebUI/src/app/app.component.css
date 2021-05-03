@@ -23,11 +23,12 @@ mat-drawer-content {
 }
 
 .menu-drawer {
-    background-color:#0e153a;
+    border-style: double;
+    border-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 45px;
+    height: 40px;
     width: 30vw;
 }
 
@@ -73,8 +74,13 @@ mat-drawer-content {
         display: block;
     }
 
+    .logo-text {
+        cursor: pointer;
+    }
+
     .desktop-buttons a {
         margin: 0px 0px 0px 25px;
+        cursor: pointer;
     }
 
     .menu-button {
