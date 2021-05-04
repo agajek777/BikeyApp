@@ -1,1 +1,31 @@
-<p>login works!</p>
+<div class="main">
+    <div class="title">
+        <h1>Sign In</h1>
+    </div>
+    <form class="form" [formGroup]="loginForm">
+        <mat-form-field>
+            <input matInput placeholder="Username" formControlName="username">
+            <mat-error>
+                Username is required.
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Password" formControlName="password">
+            <mat-error>
+                Password is required.
+            </mat-error>
+        </mat-form-field>
+    </form>
+    <div class="buttons">
+        <button 
+        class="return-button" 
+        mat-fab color="warn"
+        [routerLink]="['/home']" 
+        >
+            <mat-icon>first_page</mat-icon>
+        </button>
+        <button (click)="submit()" class="submit-button" mat-fab color="primary" [disabled]="loginForm.invalid">
+            <mat-icon>done</mat-icon>
+        </button>
+    </div>
+</div>
