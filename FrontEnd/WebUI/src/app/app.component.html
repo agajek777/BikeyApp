@@ -25,6 +25,7 @@
             <a class="navbar-link">Models</a>
             <a class="navbar-link" [routerLink]="['/login']">Sign In</a>
           </div>
+          <a *ngIf="isLogged()">Hello, {{ getUsername() }}</a>
         </div>
       </div>
       <div class="content">

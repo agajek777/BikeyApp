@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginDto } from 'src/app/models/user/login-dto';
+import { SuccLoginDto } from 'src/app/models/user/succ-login-dto';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -23,7 +24,17 @@ export class LoginComponent implements OnInit {
     
 
     this.authService.login(loginDto).subscribe(
-      succ => console.log(succ)
+      succ => 
+      {
+        var outcome = succ as SuccLoginDto;
+        console.log(outcome);
+
+        this.authService.setVariables(outcome);
+      },
+      error =>
+      {
+        console.log(error);
+      }
     );
   }
 
