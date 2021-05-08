@@ -11,7 +11,7 @@ import { SuccLoginDto } from 'src/app/models/user/succ-login-dto';
 export class UserFormComponent implements OnInit {
   userForm: FormGroup = new FormGroup({
     username: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required)
+    password: new FormControl('', [Validators.required, Validators.minLength(6)])
   });
 
   @Output()
