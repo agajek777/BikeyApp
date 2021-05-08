@@ -4,25 +4,15 @@
     align-items: center;
 }
 
-.title {
-    margin: 105px 0px 0px;
-}
-
-.form {
+.register {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0px 0px 35px;
 }
 
-.buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.return-button {
-    margin: 0px 10px 0px 0px;
+.register-button {
+    cursor: pointer;
+    color: blue;
 }
 
 .submit-button {

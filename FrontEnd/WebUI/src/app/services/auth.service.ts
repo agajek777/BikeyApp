@@ -11,12 +11,26 @@ import { SuccLoginDto } from '../models/user/succ-login-dto';
 })
 export class AuthService {
   loginUrl = 'identity-service/auth/login'
+  registerUrl = 'identity-service/auth/register'
   constructor(private http: HttpClient) { }
 
   login(loginDto: LoginDto) {
     return this.http.post(AppSettings.DEV_API_ENDPOINT + this.loginUrl,
         loginDto
       );
+  }
+
+  register(loginDto: LoginDto) {
+    return this.http.post(AppSettings.DEV_API_ENDPOINT + this.registerUrl,
+      loginDto
+    );
+  }
+
+  logOut() {
+    sessionStorage.removeItem("access_token");
+    sessionStorage.removeItem("username");
+    sessionStorage.removeItem("id");
+    return true;
   }
 
   isLogged() {
