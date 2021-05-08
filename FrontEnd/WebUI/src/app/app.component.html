@@ -1,6 +1,6 @@
 <div class="main">
   <mat-drawer-container class="drawer-container" hasBackdrop="false">
-    <mat-drawer class="drawer" #drawer mode="side">
+    <mat-drawer class="drawer" #drawer mode="push">
       <div class="drawer-items">
         <div class="menu-drawer">
           Menu
@@ -8,7 +8,7 @@
         <div class="navbar-link">Hire a Bike!</div>
         <div class="navbar-link">Bases</div>
         <div class="navbar-link">Models</div>
-        <div [routerLink]="['/login']" class="navbar-link">Sign In</div>
+        <div *ngIf="!isLogged()" [routerLink]="['/login']" class="navbar-link">Sign In</div>
       </div>
     </mat-drawer>
     <mat-drawer-content>
@@ -18,13 +18,15 @@
             menu
           </mat-icon>
           <a [routerLink]="['home']" class="logo-text">BikeyApp</a>
-          <mat-icon style="margin: 7px 20px 0px 0px; cursor: pointer;" class="bike-logo">pedal_bike</mat-icon>
+          <mat-icon style="margin: 7px 15px 0px 0px; cursor: pointer;" class="bike-logo">pedal_bike</mat-icon>
           <div class="desktop-buttons">
             <a class="navbar-link">Hire a Bike!</a>
             <a class="navbar-link">Bases</a>
             <a class="navbar-link">Models</a>
-            <a class="navbar-link" [routerLink]="['/login']">Sign In</a>
+            <a *ngIf="!isLogged()" class="navbar-link" [routerLink]="['/login']">Sign In</a>
           </div>
+          <a *ngIf="isLogged()">Hello, {{ getUsername() }}</a>
+          <mat-icon *ngIf="isLogged()" (click)="logOut()" style="margin: 7px 0px 0px 0px;">logout</mat-icon>
         </div>
       </div>
       <div class="content">

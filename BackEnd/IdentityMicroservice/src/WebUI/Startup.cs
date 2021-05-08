@@ -27,6 +27,8 @@ namespace WebUI
 {
     public class Startup
     {
+        private readonly string _allowSpecificOrigin = "AllowSpecificOrigin";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

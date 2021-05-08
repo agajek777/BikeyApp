@@ -21,6 +21,7 @@ namespace WebUI
 {
     public class Startup
     {
+        private readonly string _allowSpecificOrigin = "AllowSpecificOrigin";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -55,6 +56,18 @@ namespace WebUI
                 });
             
             services.AddOcelot();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_allowSpecificOrigin,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                               .AllowAnyMethod()
+                               .AllowAnyHeader()
+                               .AllowCredentials();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,7 +89,9 @@ namespace WebUI
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
+        
+            app.UseCors(_allowSpecificOrigin);
+
             app.UseOcelot().Wait();
         }
     }

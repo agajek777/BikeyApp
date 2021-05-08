@@ -1,1 +1,7 @@
-<p>login works!</p>
+<div class="main">
+    <app-user-form #userForm [title]="title" (userData)="submit($event)"></app-user-form>
+    <div class="register">
+        <h4>Don't have an account?</h4>
+        <div [routerLink]="['/register']" class="register-button">Register now!</div>
+    </div>
+</div>

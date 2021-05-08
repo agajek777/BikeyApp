@@ -1,0 +1,19 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-button {
+    cursor: pointer;
+    color: blue;
+}
+
+.submit-button {
+}

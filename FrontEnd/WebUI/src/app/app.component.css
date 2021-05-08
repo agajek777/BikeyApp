@@ -43,10 +43,6 @@ mat-drawer-content {
     align-items: center;
 }
 
-.bike-logo {
-    margin: 15px 0px 0px;
-}
-
 .menu-button {
     margin: 7px 5px 0px 5px;
 }
@@ -77,15 +73,17 @@ mat-drawer-content {
 @media screen and (min-width: 750px) {
     .buttons {
         margin-left: 25px;    
+        display: flex;
+        flex-direction: row;
     }
 
     .desktop-buttons {
-        margin: 7px 0px 0px;
+        margin: 7px 95px 0px 0px;
         display: block;
     }
 
     .desktop-buttons a {
-        margin: 0px 0px 0px 25px;
+        margin: 0px 0px 0px 15px;
         cursor: pointer;
     }
 
