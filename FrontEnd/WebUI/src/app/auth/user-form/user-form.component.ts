@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginDto } from 'src/app/models/user/login-dto';
-import { SuccLoginDto } from 'src/app/models/user/succ-login-dto';
-
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',

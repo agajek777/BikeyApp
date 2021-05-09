@@ -11,10 +11,10 @@
         </mat-form-field>
         <mat-form-field>
             <input matInput placeholder="Password" formControlName="password">
-            <mat-error *ngIf="this.userForm.controls['password'].errors.required">
+            <mat-error *ngIf="this.userForm.controls['password'].errors?.required">
                 Password is required.
             </mat-error>
-            <mat-error *ngIf="this.userForm.controls['password'].errors.minlength">
+            <mat-error *ngIf="this.userForm.controls['password'].errors?.minlength">
                 Password should contain at least 6 characters.
             </mat-error>
         </mat-form-field>
@@ -27,7 +27,7 @@
         >
             <mat-icon>first_page</mat-icon>
         </button>
-        <button (click)="submit()" class="submit-button" mat-fab color="primary" [disabled]="userForm.invalid">
+        <button (click)="submit()" class="submit-button" mat-fab color="primary" [disabled]="this.userForm.invalid">
             <mat-icon>done</mat-icon>
         </button>
     </div>

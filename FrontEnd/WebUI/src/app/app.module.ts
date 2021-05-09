@@ -14,6 +14,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './home/home.component';
 import { UserFormComponent } from './auth/user-form/user-form.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { MessageDialogComponent } from './dialogs/message-dialog/message-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { RegisterComponent } from './auth/register/register.component';
     LoginComponent,
     HomeComponent,
     UserFormComponent,
-    RegisterComponent
+    RegisterComponent,
+    MessageDialogComponent
   ],
   imports: [
     BrowserModule,
